@@ -1,0 +1,21 @@
+#!/bin/sh
+
+
+
+case $BLOCK_BUTTON in 
+    1) setsid -f $TERMINAL -e calcurse ;;   # syncs via caldav then launches calcurses
+    3) notify-send "$(date '+%d %B %Y')" "$(cal | sed '1d')";;	 # simple calendar
+    2) notify-send "Clock" "\- Left click to access calcurses." ;;
+    6) $TERMINAL -e vim $0 ;;
+esac
+
+today=$(date '+%b %d (%a) %I:%M%p')
+temp=$(date '+%m %d')
+
+if [ temp = "09 09" ] ; then 
+   today="Cirno ⑨ ($(date '+%a) %I:%M%p')"
+fi
+    
+
+echo $today
+    
