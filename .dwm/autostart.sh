@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 ###---Xrandr---###
 #xrandr --output HDMI-A-0 --left-of DisplayPort-1 --output DisplayPort-1
@@ -15,6 +15,8 @@ dwmblocks &
 playerctld daemon &
 vdirsyncer sync &
 flameshot &
+
+#trayer --edge top --align right --SetDockType true --SetPartialStrut true --expand true --width 10 --height 18 &
 
 /usr/lib/pentablet/pentablet.sh &
 
@@ -37,5 +39,10 @@ feh --bg-scale /home/ki11errabbit/Pictures/Wallpapers/tMrvygQ.jpeg
 ###---lockscreen---###
 ~/.dwm/scripts/lock.sh &
 
-###---cronora---###
-#cornora -tr "kill -s USR1 $(pidof deadd-notification-center)" &
+###---Hot Corners---###
+~/.dwm/scripts/hotcorners.sh &
+
+
+###env variables
+export WEATHER_OPTION=0 &
+
