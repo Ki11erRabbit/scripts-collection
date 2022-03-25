@@ -1,0 +1,13 @@
+#!/bin/sh
+
+case $BLOCK_BUTTON in 
+	3) notify-send "Mic Status" "shows if the mic is muted";;
+	6) $TERMINAL -e nvim "$0" ;;
+
+esac
+
+
+if pactl get-source-mute @DEFAULT_SOURCE@ | grep -q yes; then
+	echo ""
+fi
+

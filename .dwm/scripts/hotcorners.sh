@@ -4,8 +4,8 @@
 
 #xdotool behave_screen_edge --quiesce 1000 bottom-left \
 #	exec kitty nnn -c -a -P p & 
-xdotool behave_screen_edge --quiesce 1000 bottom-left \
-	exec thunar & 
+xdotool behave_screen_edge --delay 150 --quiesce 2000 bottom-left \
+	exec thunar &
 
 ##--Right--##
 

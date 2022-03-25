@@ -8,8 +8,10 @@
 # terminal if desired. This function will only be run once a day when needed.
 weatherreport="${XDG_DATA_HOME:-$HOME/.local/share}/weatherreport"
 getforecast() { curl -sf "wttr.in/$LOCATION" > "$weatherreport" || exit 1 ;}
-currweather=$(curl -sf "wttr.in/$LOCATION?format=%c%t+%h\n" | sed 's/ //')
-weather_option=$(cat ~/.dwm/blocks-scripts/helper-scripts/weather_option)
+currweather=$(curl -sf "wttr.in/$LOCATION?format=%c%t+%h\n")
+# | sed 's/ //')
+#weather_option=$(cat ~/.dwm/blocks-scripts/helper-scripts/weather_option)
+weather_option=$(cat /tmp/weather_option)
 
 # Some very particular and terse stream manipulation. We get the maximum
 # precipitation chance and the daily high and low from the downloaded file and
@@ -20,7 +22,7 @@ sed '13q;d' "$weatherreport" | grep -o "m\\([-+]\\)*[0-9]\\+" | sed 's/+//g' | s
 
 case $BLOCK_BUTTON in
 	1) setsid -f $TERMINAL -e less -Srf "$weatherreport" ;;
-	2) echo 1 > ~/.dwm/blocks-scripts/helper-scripts/weather_option;;
+	2) echo 1 > /tmp/weather_option;;
 	3) notify-send "🌈 Weather module" "\- Left click for full forecast.
 - Middle click to update forecast.
 ☔: Chance of rain/snow
@@ -37,16 +39,10 @@ esac
 case $weather_option in
 	1) getforecast
 	   echo "$(showweather)"
-	   weather_option=0
-	   echo 0 > ~/.dwm/blocks-scripts/helper-scripts/weather_option
+	   echo 0 > /tmp/weather_option
 	   ;;
-	0) echo $currweather
-
-	   ;;
+	0) echo $currweather;;
 esac
 
+#echo 0 > ~/.dwm/blocks-scripts/helper-scripts/weather_option
 
-
-#~/.dwm/blocks-scripts/weather
-#echo $currweather
-#showweather

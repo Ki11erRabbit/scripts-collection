@@ -1,48 +1,45 @@
-#!/bin/sh
+#!/bin/bash
 
 ###---Xrandr---###
 #xrandr --output HDMI-A-0 --left-of DisplayPort-1 --output DisplayPort-1
 xrandr --output DisplayPort-0 --off --output DisplayPort-1 --mode 1920x1080 --pos 1920x0 --rotate normal --output DisplayPort-2 --off --output HDMI-A-0 --primary --mode 1920x1080 --pos 0x0 --rotate normal
 
 ###---Autostart---###
-#dunst &
-deadd-notification-center &
-picom --experimental-backend &
-fcitx -d &
-copyq &
-dwmblocks &
-~/.dwm/DWM/dwm-autostart.sh &
-playerctld daemon &
-vdirsyncer sync &
-flameshot &
-
-#trayer --edge top --align right --SetDockType true --SetPartialStrut true --expand true --width 10 --height 18 &
-
-/usr/lib/pentablet/pentablet.sh &
-
-/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
-
+if ! pgrep -x "fcitx" > /dev/null ; then
+	fcitx -d &
+fi
+if ! pgrep -x "pcloud" > /dev/null ; then
+	pcloud &
+fi
+if ! pgrep -x "pamac" > /dev/null ; then
+	pamac-daemon; pamac-tray &
+fi
+if ! pgrep -x "mullvad-vpn" > /dev/null ; then
+	mullvad-vpn &
+fi
+if ! pgrep -x "mailnag" > /dev/null ; then
+	mailnag &
+fi
+if ! pgrep -x "steam" > /dev/null ; then
+	steam -silent &
+fi
 kdeconnect-indicator &
-./pcloud.sh &
-mullvad-vpn &
-mailnag &
-steam -silent &
-pamac-daemon &
-pamac-tray &
+vdirsyncer sync &
+/usr/lib/pentablet/pentablet.sh &
+#/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
+
+###---Customization---###
+kitty +kitten themes st &
+sed 's/ctermbg=LightGrey/ctrembg=DarkGrey/' ~/.vimrc &
+alias cmus='screen -q -r -D cmus || screen -S cmus $(which --skip-alias cmus)'
+export TERMINAL=alacritty &
+
+##---Fix for Clion---###
 wmname LG3D &
 
 
 ###---Wallpaper---###
 feh --bg-scale /home/ki11errabbit/Pictures/Wallpapers/tMrvygQ.jpeg
 
-
-###---lockscreen---###
-~/.dwm/scripts/lock.sh &
-
-###---Hot Corners---###
-~/.dwm/scripts/hotcorners.sh &
-
-
-###env variables
-export WEATHER_OPTION=0 &
-
+###---variable for dwmblocks---###
+echo 0 > /tmp/weather_option
